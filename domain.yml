@@ -1,0 +1,90 @@
+intents:
+- affirm
+- bye
+- compare_entities
+- deny
+- greet
+- query_attribute
+- query_entities
+- resolve_entity
+
+entities:
+- account
+- account_type
+- amount
+- attribute
+- bank
+- card
+- category
+- country
+- date
+- email
+- entities
+- entity_type
+- gender
+- mention
+- person
+- phone_number
+- reference
+- transaction
+
+slots:
+  account:
+    type: text
+  account_type:
+    type: text
+  amount:
+    type: text
+  attribute:
+    type: text
+  bank:
+    type: text
+  card:
+    type: text
+  category:
+    type: text
+  country:
+    type: text
+  date:
+    type: text
+  email:
+    type: text
+  entities:
+    type: list
+  entity_type:
+    type: text
+  gender:
+    type: text
+  mention:
+    type: text
+  person:
+    type: text
+  phone_number:
+    type: text
+  reference:
+    type: text
+  transaction:
+    type: text
+
+templates:
+  utter_greet:
+  - text: Nice to meet you. How can I help?
+  - text: Hello! How can I help you?
+  utter_goodbye:
+  - text: Talk to you later!
+  - text: Bye.
+  utter_ok:
+  - text: Ok
+  utter_rephrase:
+  - text: Can you please rephrase?
+  - text: Sorry, I didn't get that. Can you rephrase?
+
+actions:
+- action_compare_entities
+- action_query_attribute
+- action_query_entities
+- action_resolve_entity
+- utter_goodbye
+- utter_greet
+- utter_ok
+- utter_rephrase

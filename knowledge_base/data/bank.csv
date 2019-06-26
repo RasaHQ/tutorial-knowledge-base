@@ -1,0 +1,8 @@
+name,country,headquarters,free-accounts,english-customer-service,english-website,english-mobile-app,free-worldwide-withdrawals,allowed-residents
+N26,Germany,Berlin,true,true,true,true,true,EU residents
+bunq,Netherlands,Amsterdam,false,true,true,true,true,all residents
+Deutsche Bank,Germany,Frankfurt am Main,false,true,true,false,false,German residents
+Commerzbank,Germany,Frankfurt am Main,true,true,true,false,false,German residents
+Targobank,Germany,Düsseldorf,true,true,true,false,false,German residents
+DKB,Germany,Berlin,true,false,false,false,true,all residents (with difficulty)
+Comdirect,Germany,Quickborn,true,false,false,false,true,all residents

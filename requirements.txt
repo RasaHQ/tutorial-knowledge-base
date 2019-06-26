@@ -1,0 +1,3 @@
+rasa-sdk~=1.1
+rasa~=1.1.4
+grakn==1.4.2
