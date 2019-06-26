@@ -203,7 +203,6 @@ class ActionQueryAttribute(Action):
 
         if entity_type is None:
             dispatcher.utter_template("utter_rephrase", tracker)
-            return [SlotSet(entity_type, None)]
 
         # get name of entity and attribute of interest
         name = get_entity_name(tracker, entity_type)

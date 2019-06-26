@@ -12,17 +12,18 @@ pip install -r requirements.txt
 
 ### Setting up the Graph Database
 
+Our knowledge base is represented by a graph database.
 In this repository [Grakn](https://grakn.ai/) is used as a graph database.
 Please check the [installation instruction](https://dev.grakn.ai/docs/running-grakn/install-and-run)
-for Grakn in order to install it.
+of Grakn in order to install it.
 
 Once you installed Grakn, you need to start the Grakn server by executing
 ```bash
 grakn server start
 ```
-You can stop the server by executing `grakn server stop`.
+You can stop the server by running `grakn server stop`.
 
-In order to load data into the graph database you need to follow the following steps:
+In order to get some data into the graph database you need to execute the following steps:
 1. Create the schema by executing 
     ```bash
     graql console --keyspace banking --file knowledge_base/schema.gql
@@ -35,7 +36,7 @@ In order to load data into the graph database you need to follow the following s
     Grakn recommends you to write a `migrate.py` script 
     (see [migration-python](https://dev.grakn.ai/docs/examples/phone-calls-migration-python))
     to load data from csv files into your graph database.
-    Our migration scripts loads the data located in `knowledge_base/data` into the keyspace `banking`.
+    Our migration script loads the data located in `knowledge_base/data` into the keyspace `banking`.
 
 The graph database is set up and ready to be used.
 

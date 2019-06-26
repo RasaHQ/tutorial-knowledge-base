@@ -258,7 +258,7 @@
 - can you list my [accounts](entity_type), please?
 - what [cards](entity_type) do i have?
 - tell me about [accounts](entity_type)
-- I want to know different [banking ](entity_type:banking)options
+- I want to know different [banking](entity_type) options
 - what [accounts](entity_type) do I have?
 - tell me about my [accounts](entity_type)
 - what [banks](entity_type) do you have?
