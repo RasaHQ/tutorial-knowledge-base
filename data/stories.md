@@ -1,23 +1,26 @@
 ## story_greet
 * greet
- - utter_greet
+  - utter_greet
  
 ## story_goodbye
 * bye
- - utter_goodbye
+  - utter_goodbye
 
 ## query_entities
 * query_entities
-- action_query_entities
+  - action_query_entities
 
 ## request_info
 * query_attribute
-- action_query_attribute
-- slot{"card": null}
+  - action_query_attribute
+  - slot{"mention": null}
+  - slot{"bank": "N26"}
 
 ## resolve entity
 * resolve_entity
-- action_resolve_entity
+  - action_resolve_entity
+  - slot{"mention": null}
+  - slot{"bank": "N26"}
 
 ## transactions
 * greet
@@ -31,7 +34,8 @@
   - action_compare_entities
 * query_attribute
   - action_query_attribute
-  - slot{"transaction": null}
+  - slot{"mention": null}
+  - slot{"account": "DE89370400440532013000"}
 * query_attribute
   - action_query_attribute
 * bye
@@ -47,7 +51,8 @@
   - slot{"account": ""}
 * query_attribute
   - action_query_attribute
-  - slot{"account": null}
+  - slot{"mention": null}
+  - slot{"transaction": "123"}
 * bye
   - utter_goodbye
 
@@ -56,7 +61,8 @@
   - utter_greet
 * query_attribute
   - action_query_attribute
-  - slot{"bank": null}
+  - slot{"mention": null}
+  - slot{"card": null}
 * bye
   - utter_goodbye
 
@@ -65,7 +71,8 @@
   - utter_greet
 * query_attribute
   - action_query_attribute
-  - slot{"transaction": null}
+  - slot{"mention": null}
+  - slot{"person": null}
 * query_entities
   - action_query_entities
 * compare_entities

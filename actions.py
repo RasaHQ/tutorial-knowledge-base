@@ -69,10 +69,12 @@ def get_entity_name(tracker: Tracker, entity_type: Text):
     :param entity_type: the entity type
     :return: the name of the actual entity (value of key attribute in the knowledge base)
     """
-    name = tracker.get_slot(entity_type)
-    if name is None:
-        name = resolve_mention(tracker)
-    return name
+
+    mention = tracker.get_slot("mention")
+    if mention is not None:
+        return resolve_mention(tracker)
+
+    return tracker.get_slot(entity_type)
 
 
 def to_str(entity: Dict[Text, Any], entity_keys: Union[Text, List[Text]]) -> Text:
@@ -210,11 +212,7 @@ class ActionQueryAttribute(Action):
 
         if name is None or attribute is None:
             dispatcher.utter_template("utter_rephrase", tracker)
-            return [
-                SlotSet(entity_type, None),
-                SlotSet('mention', None),
-                SlotSet('attribute', None)
-            ]
+            return [SlotSet("mention", None)]
 
         # query knowledge base
         key_attribute = schema[entity_type]["key"]
@@ -232,11 +230,9 @@ class ActionQueryAttribute(Action):
                 f"Did not found a valid value for attribute {attribute} for entity '{name}'."
             )
 
-        # reset slots
         return [
-            SlotSet(entity_type, None),
-            SlotSet('mention', None),
-            SlotSet('attribute', None)
+            SlotSet("mention", None),
+            SlotSet(entity_type, name)
         ]
 
 
@@ -287,17 +283,19 @@ class ActionResolveEntity(Action):
         entity_type = tracker.get_slot("entity_type")
         entities = tracker.get_slot("entities")
 
+        # Check if entity was mentioned as 'first', 'second', etc.
+        mention = tracker.get_slot("mention")
+        if mention is not None:
+            value = resolve_mention(tracker)
+            if value is not None:
+                return [
+                    SlotSet(entity_type, value), SlotSet("mention", None)]
+
         # Check if NER recognized entity directly
         # (e.g. bank name was mentioned and recognized as 'bank')
         value = tracker.get_slot(entity_type)
         if value is not None and value in entities:
-            return [SlotSet(entity_type, value)]
+            return [SlotSet(entity_type, value), SlotSet("mention", None)]
 
-        # Check if entity was mentioned as 'first', 'second', etc.
-        value = resolve_mention(tracker)
-        if value is not None:
-            return [SlotSet(entity_type, value)]
-
-        dispatcher.utter_message("Sorry, I didn't get that.")
-
-        return [SlotSet(entity_type, None)]
+        dispatcher.utter_template("utter_rephrase", tracker)
+        return [SlotSet(entity_type, None), SlotSet("mention", None)]

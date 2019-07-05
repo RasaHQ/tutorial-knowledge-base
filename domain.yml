@@ -7,7 +7,6 @@ intents:
 - query_attribute
 - query_entities
 - resolve_entity
-
 entities:
 - account
 - account_type
@@ -27,7 +26,6 @@ entities:
 - phone_number
 - reference
 - transaction
-
 slots:
   account:
     type: text
@@ -65,11 +63,10 @@ slots:
     type: text
   transaction:
     type: text
-
 templates:
   utter_greet:
-  - text: Nice to meet you. How can I help?
-  - text: Hello! How can I help you?
+  - text: Hi. I can give you some information about banks or I can give you some details
+      about the accounts you own. What do you want to know?
   utter_goodbye:
   - text: Talk to you later!
   - text: Bye.
@@ -78,7 +75,6 @@ templates:
   utter_rephrase:
   - text: Can you please rephrase?
   - text: Sorry, I didn't get that. Can you rephrase?
-
 actions:
 - action_compare_entities
 - action_query_attribute

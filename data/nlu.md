@@ -84,6 +84,7 @@
 - Which one has more [cash](attribute) on it?
 - Which is the one with more [money](attribute)?
 - How much [money](attribute) do I have on those accounts?
+- on which account do i have more [money](attribute)
 
 ## intent:deny
 - no
@@ -227,6 +228,16 @@
 - what is the [expiry date](attribute) of the [first](mention) one
 - what is the [expiration date](attribute) of the [last](mention) one
 - what is the [category](attribute) of the [second](mention) one
+- how much [money](attribute) did i spend on [food](category)
+- does [N26](bank) have an [english website](attribute)
+- what [residents](attribute) are allowed to open an account on [N26](bank)
+- what about the [headquarters](attribute) of the [last](mention) one
+- what is the [headquarter](attribute) of the [third](mention) one
+- what is the [headquarters](attribute) of the [second](mention) one
+- what about the [third](mention) one
+- what is the [balance](attribute) of the [first](mention) one
+- how much [money](attribute) do i have on my account
+- how much [money](attribute) do i have on the [second](mention) one
 
 ## intent:query_entities
 - What options for [banks](entity_type) do I have?
@@ -268,6 +279,12 @@
 - can you list may [cards](entity_type)
 - what [cards](entity_type) do i have
 - can you list my [transactions](entity_type)
+- what are my recent [transactions](entity_type) on [DE76894768662419673111](account)
+- can you list some [banks](entity_type) for me
+- what are my [bank](entity_type) options
+- can you list some [transactions](entity_type) of the [second](mention) one
+- what are my [transactions](entity_type) on [DE82444435329779109646](account)
+- what are my recent [transaction](entity_type) on [food](category)
 
 ## intent:resolve_entity
 - [1](mention)

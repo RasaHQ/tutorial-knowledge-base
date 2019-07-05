@@ -106,4 +106,4 @@ venv.bak/
 # rasa
 models
 rasa.db
-tracker.db/
+tracker.db
