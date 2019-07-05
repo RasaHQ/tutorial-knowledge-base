@@ -4,8 +4,6 @@ from typing import List, Dict, Any, Optional, Text
 
 import grakn
 
-from constants import me
-
 logger = logging.getLogger(__name__)
 
 
@@ -13,7 +11,7 @@ class GraphDatabase:
     def __init__(self, uri: Text = "localhost:48555", keyspace: Text = "banking"):
         self.client = grakn.Grakn(uri=uri)
         self.keyspace = keyspace
-        self.me = me
+        self.me = "mitchell.gillis@t-online.de"
 
     def _thing_to_dict(self, thing):
         """
@@ -81,18 +79,6 @@ class GraphDatabase:
 
                 return relations
 
-    @staticmethod
-    def get_random_person():
-        """
-        Get a random person of the bank that represents 'me'.
-
-        :return: a random person from the knowledge base
-        """
-
-        graph = GraphDatabase()
-        people = graph._execute_entity_query(f"match $x isa person; get;")
-        return people[random.randint(0, len(people) - 1)]
-
     def _get_me_clause(self, entity_type: Text) -> Text:
         """
         Construct the me clause. Needed to only list, for example, accounts that are
@@ -107,9 +93,9 @@ class GraphDatabase:
 
         # do not add the me clause to a query asking for banks or people as they are
         # independent of the accounts related to me
-        if self.me is not None and entity_type not in ["person", "bank"]:
+        if entity_type not in ["person", "bank"]:
             clause = (
-                f"$person isa person, has email '{self.me['email']}';"
+                f"$person isa person, has email '{self.me}';"
                 f"$contract(customer: $person, offer: $account, provider: $bank) isa contract;"
             )
         return clause

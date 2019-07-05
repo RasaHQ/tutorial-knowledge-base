@@ -31,7 +31,7 @@
   - action_compare_entities
 * query_attribute
   - action_query_attribute
-  - slot{"transactions": null}
+  - slot{"transaction": null}
 * query_attribute
   - action_query_attribute
 * bye

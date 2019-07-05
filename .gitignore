@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# rasa
+models
+rasa.db
+tracker.db/

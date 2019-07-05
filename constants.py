@@ -1,9 +1,3 @@
-from graph_database import GraphDatabase
-
-
-me = GraphDatabase.get_random_person()
-
-
 schema = {
     "transaction": {
         "attributes": ["category", "execution-date", "amount", "reference"],

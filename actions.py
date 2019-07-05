@@ -210,7 +210,11 @@ class ActionQueryAttribute(Action):
 
         if name is None or attribute is None:
             dispatcher.utter_template("utter_rephrase", tracker)
-            return [SlotSet(entity_type, None)]
+            return [
+                SlotSet(entity_type, None),
+                SlotSet('mention', None),
+                SlotSet('attribute', None)
+            ]
 
         # query knowledge base
         key_attribute = schema[entity_type]["key"]
@@ -228,8 +232,12 @@ class ActionQueryAttribute(Action):
                 f"Did not found a valid value for attribute {attribute} for entity '{name}'."
             )
 
-        # reset slot of entity type, because TODO
-        return [SlotSet(entity_type, None)]
+        # reset slots
+        return [
+            SlotSet(entity_type, None),
+            SlotSet('mention', None),
+            SlotSet('attribute', None)
+        ]
 
 
 class ActionCompareEntities(Action):
