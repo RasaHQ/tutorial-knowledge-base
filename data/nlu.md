@@ -194,6 +194,23 @@
 - good morning
 - good afternoon
 - HI
+- Hello?
+
+## intent:help
+- What can you do?
+- What should I ask you?
+- how can you help me
+- I need help
+- i need help
+
+## intent:out_of_scope
+- Can I transfer money?
+- Can I open a bank account?
+- Can you help me with transferring money?
+- I want to open a bank account
+- I need a new bank account
+- i want to transfer money
+- I want to transfer [money](attribute)
 
 ## intent:query_attribute
 - What is the [gender](attribute) of [Hans Maier](person)?
@@ -238,6 +255,11 @@
 - what is the [balance](attribute) of the [first](mention) one
 - how much [money](attribute) do i have on my account
 - how much [money](attribute) do i have on the [second](mention) one
+- [How much](attribute) do I have in my [savings](account_type) account?
+- How much [money](attribute) is in my [savings](account_type) account?
+- What is my [balance](attribute) for [savings](account_type)?
+- How much [money](attribute) do I have in my [credit](account_type) account?
+- What is my [savings](account_type) account [balance](attribute)?
 
 ## intent:query_entities
 - What options for [banks](entity_type) do I have?
@@ -285,11 +307,19 @@
 - can you list some [transactions](entity_type) of the [second](mention) one
 - what are my [transactions](entity_type) on [DE82444435329779109646](account)
 - what are my recent [transaction](entity_type) on [food](category)
+- i want to check on my [accounts](entity_type)
+- what are my [banking](entity_type) options?>
+- what are my [banking](entity_type) options?
+- What are my [accounts](entity_type)?
+- What [accounts](entity_type) do I have?
+- what are my recent [transactions](entity_type) on the [first](mention) one
 
 ## intent:resolve_entity
 - [1](mention)
 - [3](mention)
 - [2](mention)
+- [4](mention)
+- [5](mention)
 - The [first](mention) one
 - The [last](mention) one
 - The [second](mention) one

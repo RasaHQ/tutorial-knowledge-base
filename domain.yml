@@ -4,6 +4,8 @@ intents:
 - compare_entities
 - deny
 - greet
+- help
+- out_of_scope
 - query_attribute
 - query_entities
 - resolve_entity
@@ -75,6 +77,12 @@ templates:
   utter_rephrase:
   - text: Can you please rephrase?
   - text: Sorry, I didn't get that. Can you rephrase?
+  utter_out_of_scope:
+  - text: Sorry, I cannot help you with that.
+  - text: I'm not able to help you with that.
+  utter_help:
+  - text: I can tell you some facts about different banks. I can answer some questions
+      about your accounts. And I can show you your recent transactions.
 actions:
 - action_compare_entities
 - action_query_attribute
@@ -82,5 +90,7 @@ actions:
 - action_resolve_entity
 - utter_goodbye
 - utter_greet
+- utter_help
 - utter_ok
+- utter_out_of_scope
 - utter_rephrase
