@@ -4,7 +4,7 @@ from typing import Text, Dict, Any, List, Union
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 
-from constants import schema
+from schema import schema
 from graph_database import GraphDatabase
 
 
@@ -62,19 +62,63 @@ def get_entity_name(tracker: Tracker, entity_type: Text):
     """
     Get the name of the entity the user referred to. Either the NER detected the
     entity and stored its name in the corresponding slot or the user referred to
-    the entity by an ordinal number, such as first or last. In that case, the
-    entity mention needs to be resolved.
+    the entity by an ordinal number, such as first or last, or the user refers to
+    an entity by its attributes.
 
     :param tracker: Tracker
     :param entity_type: the entity type
+
     :return: the name of the actual entity (value of key attribute in the knowledge base)
     """
 
+    # user referred to an entity by an ordinal number
     mention = tracker.get_slot("mention")
     if mention is not None:
         return resolve_mention(tracker)
 
-    return tracker.get_slot(entity_type)
+    # user named the entity
+    entity_name = tracker.get_slot(entity_type)
+    if entity_name:
+        return entity_name
+
+    # user referred to an entity by its attributes
+    entities = tracker.get_slot("entities")
+    attributes = get_attributes_of_entity(entity_type, tracker)
+
+    if entities and attributes:
+        # filter the entities by the set attributes
+        graph_database = GraphDatabase()
+        for entity in entities:
+            key_attr = schema[entity_type]["key"]
+            result = graph_database.validate_entity(
+                entity_type, entity, key_attr, attributes
+            )
+            if result is not None:
+                return to_str(result, key_attr)
+
+    return None
+
+
+def get_attributes_of_entity(entity_type, tracker):
+    # check what attributes the NER found for entity type
+    attributes = []
+    if entity_type in schema:
+        for attr in schema[entity_type]["attributes"]:
+            attr_val = tracker.get_slot(attr.replace("-", "_"))
+            if attr_val is not None:
+                attributes.append({"key": attr, "value": attr_val})
+    return attributes
+
+
+def reset_attribute_slots(slots, entity_type, tracker):
+    # check what attributes the NER found for entity type
+    if entity_type in schema:
+        for attr in schema[entity_type]["attributes"]:
+            attr = attr.replace("-", "_")
+            attr_val = tracker.get_slot(attr)
+            if attr_val is not None:
+                slots.append(SlotSet(attr, None))
+    return slots
 
 
 def to_str(entity: Dict[Text, Any], entity_keys: Union[Text, List[Text]]) -> Text:
@@ -122,12 +166,7 @@ class ActionQueryEntities(Action):
             return []
 
         # check what attributes the NER found for entity type
-        attributes = []
-        if entity_type in schema:
-            for attr in schema[entity_type]["attributes"]:
-                attr_val = tracker.get_slot(attr)
-                if attr_val is not None:
-                    attributes.append({"key": attr, "value": attr_val})
+        attributes = get_attributes_of_entity(entity_type, tracker)
 
         # query knowledge base
         entities = graph_database.get_entities(entity_type, attributes)
@@ -168,6 +207,8 @@ class ActionQueryEntities(Action):
         # found entity
         if len(entities) == 1:
             slots.append(SlotSet(entity_type, to_str(entities[0], entity_key)))
+
+        reset_attribute_slots(slots, entity_type, tracker)
 
         return slots
 
@@ -212,7 +253,9 @@ class ActionQueryAttribute(Action):
 
         if name is None or attribute is None:
             dispatcher.utter_template("utter_rephrase", tracker)
-            return [SlotSet("mention", None)]
+            slots = [SlotSet("mention", None)]
+            reset_attribute_slots(slots, entity_type, tracker)
+            return slots
 
         # query knowledge base
         key_attribute = schema[entity_type]["key"]
@@ -230,10 +273,9 @@ class ActionQueryAttribute(Action):
                 f"Did not found a valid value for attribute {attribute} for entity '{name}'."
             )
 
-        return [
-            SlotSet("mention", None),
-            SlotSet(entity_type, name)
-        ]
+        slots = [SlotSet("mention", None), SlotSet(entity_type, name)]
+        reset_attribute_slots(slots, entity_type, tracker)
+        return slots
 
 
 class ActionCompareEntities(Action):
@@ -288,8 +330,7 @@ class ActionResolveEntity(Action):
         if mention is not None:
             value = resolve_mention(tracker)
             if value is not None:
-                return [
-                    SlotSet(entity_type, value), SlotSet("mention", None)]
+                return [SlotSet(entity_type, value), SlotSet("mention", None)]
 
         # Check if NER recognized entity directly
         # (e.g. bank name was mentioned and recognized as 'bank')

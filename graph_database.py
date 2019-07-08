@@ -138,7 +138,9 @@ class GraphDatabase:
             f"""
               match 
                 {me_clause}
-                ${entity_type} isa {entity_type}, has {key_attribute} '{entity}', has {attribute} $a; 
+                ${entity_type} isa {entity_type},
+                has {key_attribute} '{entity}',
+                has {attribute} $a;
               get $a;
             """
         )
@@ -252,6 +254,29 @@ class GraphDatabase:
             f"has lookup-key '{lookup_key}', "
             f"has lookup-value $v;"
             f"get $v;"
+        )
+
+        if value and len(value) == 1:
+            return value[0]
+
+    def validate_entity(self, entity_type, entity, key_attribute, attributes):
+        """
+        Validates if the given entity has all provided attribute values.
+
+        :param entity_type: entity type
+        :param entity: name of the entity
+        :param key_attribute: key attribute of entity
+        :param attributes: attributes
+
+        :return: the found entity
+        """
+        attribute_clause = self._get_attribute_clause(attributes)
+
+        value = self._execute_entity_query(
+            f"match "
+            f"${entity_type} isa {entity_type}{attribute_clause}, "
+            f"has {key_attribute} '{entity}'; "
+            f"get ${entity_type};"
         )
 
         if value and len(value) == 1:
