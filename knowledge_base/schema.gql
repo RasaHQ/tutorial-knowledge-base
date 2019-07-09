@@ -40,13 +40,13 @@ card sub entity,
   has created-date,
   plays bank-card;
 
-lookup sub entity,
-  has lookup-key,
-  has lookup-value;
+mapping sub entity,
+  has mapping-key,
+  has mapping-value;
 
-mention-lookup sub lookup;
-entity-type-lookup sub lookup;
-attribute-lookup sub lookup;
+mention-mapping sub mapping;
+entity-type-mapping sub mapping;
+attribute-mapping sub mapping;
 
 # relationships
 
@@ -73,10 +73,10 @@ represented-by sub relationship,
 
 # attribute
 
-lookup-key sub attribute,
+mapping-key sub attribute,
   datatype string;
 
-lookup-value sub attribute,
+mapping-value sub attribute,
   datatype string;
 
 execution-date sub attribute,

@@ -24,7 +24,7 @@ def resolve_mention(tracker: Tracker) -> Text:
     entities = tracker.get_slot("entities")
 
     if mention is not None and entities is not None:
-        idx = int(graph_database.lookup("mention-lookup", mention))
+        idx = int(graph_database.map("mention-mapping", mention))
 
         if type(idx) is int and idx < len(entities):
             return entities[idx]
@@ -41,7 +41,7 @@ def get_entity_type(tracker: Tracker) -> Text:
     """
     graph_database = GraphDatabase()
     entity_type = tracker.get_slot("entity_type")
-    return graph_database.lookup("entity-type-lookup", entity_type)
+    return graph_database.map("entity-type-mapping", entity_type)
 
 
 def get_attribute(tracker: Tracker) -> Text:
@@ -55,7 +55,7 @@ def get_attribute(tracker: Tracker) -> Text:
     """
     graph_database = GraphDatabase()
     attribute = tracker.get_slot("attribute")
-    return graph_database.lookup("attribute-lookup", attribute)
+    return graph_database.map("attribute-mapping", attribute)
 
 
 def get_entity_name(tracker: Tracker, entity_type: Text):

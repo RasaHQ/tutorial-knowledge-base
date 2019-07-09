@@ -73,26 +73,26 @@ def card_template(card):
     return graql_insert_query
 
 
-def attribute_lookup_template(lookup):
-    graql_insert_query = "insert $lookup isa attribute-lookup"
-    graql_insert_query += ", has lookup-key '" + lookup["lookup-key"] + "'"
-    graql_insert_query += ", has lookup-value '" + lookup["lookup-value"] + "'"
+def attribute_mapping_template(mapping):
+    graql_insert_query = "insert $mapping isa attribute-mapping"
+    graql_insert_query += ", has mapping-key '" + mapping["mapping-key"] + "'"
+    graql_insert_query += ", has mapping-value '" + mapping["mapping-value"] + "'"
     graql_insert_query += ";"
     return graql_insert_query
 
 
-def entity_type_lookup_template(lookup):
-    graql_insert_query = "insert $lookup isa entity-type-lookup"
-    graql_insert_query += ", has lookup-key '" + lookup["lookup-key"] + "'"
-    graql_insert_query += ", has lookup-value '" + lookup["lookup-value"] + "'"
+def entity_type_mapping_template(mapping):
+    graql_insert_query = "insert $mapping isa entity-type-mapping"
+    graql_insert_query += ", has mapping-key '" + mapping["mapping-key"] + "'"
+    graql_insert_query += ", has mapping-value '" + mapping["mapping-value"] + "'"
     graql_insert_query += ";"
     return graql_insert_query
 
 
-def mention_lookup_template(lookup):
-    graql_insert_query = "insert $lookup isa mention-lookup"
-    graql_insert_query += ", has lookup-key '" + lookup["lookup-key"] + "'"
-    graql_insert_query += ", has lookup-value '" + lookup["lookup-value"] + "'"
+def mention_mapping_template(mapping):
+    graql_insert_query = "insert $mapping isa mention-mapping"
+    graql_insert_query += ", has mapping-key '" + mapping["mapping-key"] + "'"
+    graql_insert_query += ", has mapping-value '" + mapping["mapping-value"] + "'"
     graql_insert_query += ";"
     return graql_insert_query
 
@@ -176,16 +176,16 @@ if __name__ == "__main__":
         {"data_path": "./knowledge_base/data/bank", "template": bank_template},
         {"data_path": "./knowledge_base/data/card", "template": card_template},
         {
-            "data_path": "./knowledge_base/data/attribute_lookup",
-            "template": attribute_lookup_template,
+            "data_path": "./knowledge_base/data/attribute_mapping",
+            "template": attribute_mapping_template,
         },
         {
-            "data_path": "./knowledge_base/data/mention_lookup",
-            "template": mention_lookup_template,
+            "data_path": "./knowledge_base/data/mention_mapping",
+            "template": mention_mapping_template,
         },
         {
-            "data_path": "./knowledge_base/data/entity_type_lookup",
-            "template": entity_type_lookup_template,
+            "data_path": "./knowledge_base/data/entity_type_mapping",
+            "template": entity_type_mapping_template,
         },
         {
             "data_path": "./knowledge_base/data/represented-by",

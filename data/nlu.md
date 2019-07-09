@@ -260,6 +260,7 @@
 - What is my [balance](attribute) for [savings](account_type)?
 - How much [money](attribute) do I have in my [credit](account_type) account?
 - What is my [savings](account_type) account [balance](attribute)?
+- what is the [balance](attribute) of my [credit](account_type) [account](entity_type)
 
 ## intent:query_entities
 - What options for [banks](entity_type) do I have?
@@ -313,6 +314,10 @@
 - What are my [accounts](entity_type)?
 - What [accounts](entity_type) do I have?
 - what are my recent [transactions](entity_type) on the [first](mention) one
+- which [accounts](entity_type) do I have?
+- Details about [accounts](entity_type)
+- [Accounts](entity_type)
+- can you list my [accoutns](entity_type)
 
 ## intent:resolve_entity
 - [1](mention)
@@ -335,6 +340,7 @@
 - [N26](bank)
 - take the [first](mention) [bank](entity_type)
 - I select the [first](mention) [bank](entity_type)
+- The [latter](mention)
 
 ## regex:account
 - DE[0-9]{20}

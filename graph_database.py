@@ -238,21 +238,21 @@ class GraphDatabase:
             f"get ${entity_type};"
         )[:limit]
 
-    def lookup(self, lookup_type: Text, lookup_key: Text):
+    def map(self, mapping_type: Text, mapping_key: Text):
         """
-        Query the given lookup table for the provided lookup key.
+        Query the given mapping table for the provided key.
 
-        :param lookup_type: the name of the lookup table
-        :param lookup_key: the lookup key
+        :param mapping_type: the name of the mapping table
+        :param mapping_key: the mapping key
 
-        :return: the lookup value
+        :return: the mapping value
         """
 
         value = self._execute_attribute_query(
             f"match "
-            f"$lookup isa {lookup_type}, "
-            f"has lookup-key '{lookup_key}', "
-            f"has lookup-value $v;"
+            f"$mapping isa {mapping_type}, "
+            f"has mapping-key '{mapping_key}', "
+            f"has mapping-value $v;"
             f"get $v;"
         )
 
