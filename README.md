@@ -42,6 +42,18 @@ In order to get some data into the graph database you need to execute the follow
 
 The graph database is set up and ready to be used.
 
+### Alternative to Graph Databases
+
+If you just have a small knowledge base and you don't want to install and set up a graph database, such as Grakn,
+you can also encode your domain knowledge in a data structure, such as a python dictionary.
+You can find an example in the file `graph_database.py`.
+The file contains an implementation that uses a graph database (class `GraphDatabase`) and an implementation
+that simply uses a python dictionary as domain knowledge (class `InMemoryGraph`).
+If you want to use the `InMemoryGraph` instead of the `GraphDatabase` in the bot, you need to exchange the
+initialization of the graph database in `actions.py`.
+But be aware of the fact, that the `InMemoryGraph` does not cover the same knowledge as the `GraphDatabase`.
+It just knows about banks and their attributes.
+
 
 ## Chat with the Bot
 

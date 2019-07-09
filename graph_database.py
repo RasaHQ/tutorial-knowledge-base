@@ -1,5 +1,4 @@
 import logging
-import random
 from typing import List, Dict, Any, Optional, Text
 
 import grakn
@@ -7,7 +6,39 @@ import grakn
 logger = logging.getLogger(__name__)
 
 
-class GraphDatabase:
+class KnowledgeBase(object):
+    def get_entities(
+        self,
+        entity_type: Text,
+        attributes: Optional[List[Dict[Text, Text]]] = None,
+        limit: int = 5,
+    ) -> List[Dict[Text, Any]]:
+
+        raise NotImplementedError("Method is not implemented.")
+
+    def get_attribute_of(
+        self, entity_type: Text, key_attribute: Text, entity: Text, attribute: Text
+    ) -> List[Any]:
+
+        raise NotImplementedError("Method is not implemented.")
+
+    def validate_entity(
+        self, entity_type, entity, key_attribute, attributes
+    ) -> Optional[Dict[Text, Any]]:
+
+        raise NotImplementedError("Method is not implemented.")
+
+    def map(self, mapping_type: Text, mapping_key: Text) -> Text:
+
+        raise NotImplementedError("Method is not implemented.")
+
+
+class GraphDatabase(KnowledgeBase):
+    """
+    GraphDatabase uses a grakn graph database to encode your domain knowledege. Make
+    sure to have the graph database set up and the grakn server running.
+    """
+
     def __init__(self, uri: Text = "localhost:48555", keyspace: Text = "banking"):
         self.client = grakn.Grakn(uri=uri)
         self.keyspace = keyspace
@@ -238,7 +269,7 @@ class GraphDatabase:
             f"get ${entity_type};"
         )[:limit]
 
-    def map(self, mapping_type: Text, mapping_key: Text):
+    def map(self, mapping_type: Text, mapping_key: Text) -> Text:
         """
         Query the given mapping table for the provided key.
 
@@ -259,7 +290,9 @@ class GraphDatabase:
         if value and len(value) == 1:
             return value[0]
 
-    def validate_entity(self, entity_type, entity, key_attribute, attributes):
+    def validate_entity(
+        self, entity_type, entity, key_attribute, attributes
+    ) -> Dict[Text, Any]:
         """
         Validates if the given entity has all provided attribute values.
 
@@ -281,3 +314,189 @@ class GraphDatabase:
 
         if value and len(value) == 1:
             return value[0]
+
+
+class InMemoryGraph(KnowledgeBase):
+    """
+    If you don't want to use a graph database and you just have a few data points, you
+    can also store your domain knowledge, for example, in a dictionary.
+    This class is an example class that uses a python dictionary to encode some domain
+    knowledge about banks.
+    """
+
+    def __init__(self):
+        self.graph = {
+            "bank": [
+                {
+                    "name": "N26",
+                    "headquarters": "Berlin",
+                    "country": "Germany",
+                    "free-accounts": "true",
+                },
+                {
+                    "name": "bunq",
+                    "headquarters": "Amsterdam",
+                    "country": "Netherlands",
+                    "free-accounts": "false",
+                },
+                {
+                    "name": "Deutsche Bank",
+                    "headquarters": "Frankfurt am Main",
+                    "country": "Germany",
+                    "free-accounts": "false",
+                },
+                {
+                    "name": "Commerzbank",
+                    "headquarters": "Frankfurt am Main",
+                    "country": "Germany",
+                    "free-accounts": "true",
+                },
+                {
+                    "name": "Targobank",
+                    "headquarters": "Düsseldorf",
+                    "country": "Germany",
+                    "free-accounts": "true",
+                },
+                {
+                    "name": "DKB",
+                    "headquarters": "Berlin",
+                    "country": "Germany",
+                    "free-accounts": "true",
+                },
+                {
+                    "name": "Comdirect",
+                    "headquarters": "Quickborn",
+                    "country": "Germany",
+                    "free-accounts": "true",
+                },
+            ]
+        }
+
+        self.attribute_mapping = {
+            "headquarters": "headquarters",
+            "HQ": "headquarters",
+            "main office": "headquarters",
+            "city": "headquarters",
+            "name": "name",
+            "country": "country",
+            "free-accounts": "free-accounts",
+            "free accounts": "free-accounts",
+        }
+        self.entity_type_mapping = {"banks": "bank", "bank": "bank"}
+
+    def get_entities(
+        self,
+        entity_type: Text,
+        attributes: Optional[List[Dict[Text, Text]]] = None,
+        limit: int = 5,
+    ) -> List[Dict[Text, Any]]:
+        """
+        Query the graph database for entities of the given type. Restrict the entities
+        by the provided attributes, if any attributes are given.
+
+        :param entity_type: the entity type
+        :param attributes: list of attributes
+        :param limit: maximum number of entities to return
+
+        :return: list of entities
+        """
+        if entity_type not in self.graph:
+            return []
+
+        entities = self.graph[entity_type]
+
+        # filter entities by attributes
+        if attributes:
+            entities = list(
+                filter(
+                    lambda e: [e[a["key"]] == a["value"] for a in attributes].count(
+                        False
+                    )
+                    == 0,
+                    entities,
+                )
+            )
+
+        return entities[:limit]
+
+    def get_attribute_of(
+        self, entity_type: Text, key_attribute: Text, entity: Text, attribute: Text
+    ) -> List[Any]:
+        """
+        Get the value of the given attribute for the provided entity.
+
+        :param entity_type: entity type
+        :param key_attribute: key attribute of entity
+        :param entity: name of the entity
+        :param attribute: attribute of interest
+
+        :return: the value of the attribute
+        """
+        if entity_type not in self.graph:
+            return []
+
+        entities = self.graph[entity_type]
+
+        entity_of_interest = list(
+            filter(lambda e: e[key_attribute] == entity, entities)
+        )
+
+        if not entity_of_interest or len(entity_of_interest) > 1:
+            return []
+
+        return [entity_of_interest[0][attribute]]
+
+    def validate_entity(
+        self, entity_type, entity, key_attribute, attributes
+    ) -> Optional[Dict[Text, Any]]:
+        """
+        Validates if the given entity has all provided attribute values.
+
+        :param entity_type: entity type
+        :param entity: name of the entity
+        :param key_attribute: key attribute of entity
+        :param attributes: attributes
+
+        :return: the found entity
+        """
+        if entity_type not in self.graph:
+            return None
+
+        entities = self.graph[entity_type]
+
+        entity_of_interest = list(
+            filter(lambda e: e[key_attribute] == entity, entities)
+        )
+
+        if not entity_of_interest or len(entity_of_interest) > 1:
+            return None
+
+        entity_of_interest = entity_of_interest[0]
+
+        for a in attributes:
+            if entity_of_interest[a["key"]] != a["value"]:
+                return None
+
+        return entity_of_interest
+
+    def map(self, mapping_type: Text, mapping_key: Text) -> Text:
+        """
+        Query the given mapping table for the provided key.
+
+        :param mapping_type: the name of the mapping table
+        :param mapping_key: the mapping key
+
+        :return: the mapping value
+        """
+
+        if (
+            mapping_type == "attribute-mapping"
+            and mapping_key in self.attribute_mapping
+        ):
+            return self.attribute_mapping[mapping_key]
+
+        if (
+            mapping_type == "entity-type-mapping"
+            and mapping_key in self.entity_type_mapping
+        ):
+            return self.entity_type_mapping[mapping_key]
