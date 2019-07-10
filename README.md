@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 Our knowledge base is represented by a graph database.
 In this repository [Grakn](https://grakn.ai/) is used as a graph database.
-However, you can also use any other graph database or even write your domain knowledge into a dictionary in the python code directly.
+However, you can also use any other graph database or use an alternative (see below).
 
 In order to use this code example, you need to install [Grakn](https://grakn.ai/).
 Please check the [installation instruction](https://dev.grakn.ai/docs/running-grakn/install-and-run)
@@ -69,8 +69,7 @@ Here are some example questions you can ask the bot:
 - “What are my bank options?”
 - “What is the headquarter of the first bank?”
 - “What accounts do I have?” 
-- “What is my balance on that account?” 
-- “How much money did I spend on food?” 
+- “What is my balance on the second account?” 
 - “What are my recent transactions?”
 
 ## Feedback

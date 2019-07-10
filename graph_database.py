@@ -177,7 +177,7 @@ class GraphDatabase(KnowledgeBase):
         )
 
     def _get_transaction_entities(
-        self, attributes: Optional[List[Dict[Text, Text]]] = None, limit: int = 5
+        self, attributes: Optional[List[Dict[Text, Text]]] = None
     ) -> List[Dict[Text, Any]]:
         """
         Query the graph database for transactions. Restrict the transactions
@@ -185,7 +185,6 @@ class GraphDatabase(KnowledgeBase):
         As transaction is a relation, query also the related account entities.
 
         :param attributes: list of attributes
-        :param limit: maximum number of transactions to return
 
         :return: list of transactions
         """
@@ -194,12 +193,37 @@ class GraphDatabase(KnowledgeBase):
         me_clause = self._get_me_clause("transaction")
 
         return self._execute_relation_query(
-            f"match"
-            f"{me_clause}"
+            f"match "
+            f"{me_clause} "
             f"$transaction(account-of-receiver: $x, account-of-creator: $account) "
             f"isa transaction{attribute_clause}; "
             f"get $transaction;",
             "transaction",
+        )
+
+    def _get_card_entities(
+        self, attributes: Optional[List[Dict[Text, Text]]] = None, limit: int = 5
+    ) -> List[Dict[Text, Any]]:
+        """
+        Query the graph database for cards. Restrict the cards
+        by the provided attributes, if any attributes are given.
+
+        :param attributes: list of attributes
+        :param limit: maximum number of cards to return
+
+        :return: list of cards
+        """
+
+        attribute_clause = self._get_attribute_clause(attributes)
+        me_clause = self._get_me_clause("card")
+
+        return self._execute_entity_query(
+            f"match "
+            f"{me_clause} "
+            f"$represented-by(bank-account: $account, bank-card: $card) "
+            f"isa represented-by;"
+            f"$card isa card{attribute_clause}; "
+            f"get $card;"
         )[:limit]
 
     def _get_account_entities(
@@ -222,9 +246,9 @@ class GraphDatabase(KnowledgeBase):
 
         entities = self._execute_relation_query(
             f"""
-                match
-                $account isa account{attribute_clause};
-                {me_clause}
+                match 
+                $account isa account{attribute_clause}; 
+                {me_clause} 
                 get $contract;
             """,
             "contract",
@@ -255,16 +279,18 @@ class GraphDatabase(KnowledgeBase):
         """
 
         if entity_type == "transaction":
-            return self._get_transaction_entities(attributes, limit)
+            return self._get_transaction_entities(attributes)
         if entity_type == "account":
             return self._get_account_entities(attributes, limit)
+        if entity_type == "card":
+            return self._get_card_entities(attributes, limit)
 
         me_clause = self._get_me_clause(entity_type)
         attribute_clause = self._get_attribute_clause(attributes)
 
         return self._execute_entity_query(
             f"match "
-            f"{me_clause}"
+            f"{me_clause} "
             f"${entity_type} isa {entity_type}{attribute_clause}; "
             f"get ${entity_type};"
         )[:limit]

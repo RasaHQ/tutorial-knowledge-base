@@ -220,16 +220,16 @@ class ActionQueryEntities(Action):
 
         :param entities: list of transactions
         :param account_number: account number
-        :return: list of filtered transactions
+        :return: list of filtered transactions with max. 10 entries
         """
         if account_number is not None:
             filtered_entities = []
             for entity in entities:
                 if entity["account-of-creator"]["account-number"] == account_number:
                     filtered_entities.append(entity)
-            return filtered_entities
+            return filtered_entities[:10]
 
-        return entities
+        return entities[:10]
 
 
 class ActionQueryAttribute(Action):
@@ -246,6 +246,7 @@ class ActionQueryAttribute(Action):
 
         if entity_type is None:
             dispatcher.utter_template("utter_rephrase", tracker)
+            return []
 
         # get name of entity and attribute of interest
         name = get_entity_name(tracker, entity_type)
@@ -324,6 +325,10 @@ class ActionResolveEntity(Action):
     def run(self, dispatcher, tracker, domain):
         entity_type = tracker.get_slot("entity_type")
         entities = tracker.get_slot("entities")
+
+        if entity_type is None:
+            dispatcher.utter_template("utter_rephrase", tracker)
+            return []
 
         # Check if entity was mentioned as 'first', 'second', etc.
         mention = tracker.get_slot("mention")

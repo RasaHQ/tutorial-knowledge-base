@@ -10,5 +10,4 @@ policies:
   name: FallbackPolicy
 - max_history: 5
   name: MemoizationPolicy
-- name: FormPolicy
 - name: MappingPolicy

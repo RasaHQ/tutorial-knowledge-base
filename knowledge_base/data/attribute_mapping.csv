@@ -2,6 +2,8 @@ mapping-key,mapping-value
 city,headquarters
 headquarter,headquarters
 headquarters,headquarters
+HQ,headquarters
+main office,headquarters
 email,email
 gender,gender
 How much money,balance
@@ -14,6 +16,7 @@ residents,allowed-residents
 free accounts,free-accounts
 free worldwide withdrawals,free-worldwide-withdrawals
 english customer service,english-customer-service
+english customer support,english-customer-service
 category,category
 execution date,execution-date
 amount,amount

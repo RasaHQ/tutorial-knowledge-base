@@ -85,6 +85,10 @@
 - Which is the one with more [money](attribute)?
 - How much [money](attribute) do I have on those accounts?
 - on which account do i have more [money](attribute)
+- on which of those do i have more [money](attribute)?
+- how much [money](attribute) do i have on them?
+- what is my [balance](attribute) on those?
+- what about the [balance](attribute) on those accounts
 
 ## intent:deny
 - no
@@ -201,16 +205,22 @@
 - What should I ask you?
 - how can you help me
 - I need help
+- help me
+- I'm stuck
 - i need help
+- i don't know what to do
 
 ## intent:out_of_scope
 - Can I transfer money?
-- Can I open a bank account?
+- Can I open a bank [account](entity_type)?
 - Can you help me with transferring money?
-- I want to open a bank account
-- I need a new bank account
+- I want to open a bank [account](entity_type)
+- I need a new bank [account](entity_type)
 - i want to transfer money
-- I want to transfer [money](attribute)
+- I want to transfer money
+- can you name the [owner](attribute) of the [account](entity_type) [DE76894768662419673111](account)
+- do i also have an account on [N26](bank)
+- What are [transactions](entity_type) I made to account [DE51728838437501118370](account)
 
 ## intent:query_attribute
 - What is the [gender](attribute) of [Hans Maier](person)?
@@ -261,6 +271,15 @@
 - How much [money](attribute) do I have in my [credit](account_type) account?
 - What is my [savings](account_type) account [balance](attribute)?
 - what is the [balance](attribute) of my [credit](account_type) [account](entity_type)
+- what is the [name](attribute) of the [account](entity_type) owner of [DE70334119137743514093](account)
+- what is the [name](attribute) of the [account](entity_type) [DE70334119137743514093](account)
+- what is the [category](attribute) of the [last](mention) [transaction](entity_type)
+- does it has an [english customer service](attribute)?
+- Does it has an [english customer support](attribute)
+- Does [Deutsche Bank](bank) offer [free accounts](attribute)?
+- what about the [last](mention) one
+- What is the [HQ](attribute) of the [third](mention) one
+- what is the [headquarters](attribute) of the [first](mention) one
 
 ## intent:query_entities
 - What options for [banks](entity_type) do I have?
@@ -318,6 +337,20 @@
 - Details about [accounts](entity_type)
 - [Accounts](entity_type)
 - can you list my [accoutns](entity_type)
+- what  are my recent [transactions](entity_type) on that account
+- list my [accounts](entity_type)
+- what [accounts](entity_type) do i owe
+- can you list [transactions](entity_type) for the [second](mention) one
+- can you list my [transaction](entity_type) on [food](category)
+- [how much](attribute) did i spend on [food](category)
+- what are my [transactions](entity_type) on that account
+- how much [money](attribute) did i spent on [food](category)
+- what are [transactions](entity_type) I made on [food](category)
+- and what are [transactions](entity_type) from my account [DE76894768662419673111](account)
+- can you only show me [transactions](entity_type) from my account [DE70334119137743514093](account)
+- can you show me some of my recent [transactions](entity_type)
+- what are [banks](entity_type) you can recommend
+- what [banks](entity_type) do you know
 
 ## intent:resolve_entity
 - [1](mention)
@@ -341,6 +374,7 @@
 - take the [first](mention) [bank](entity_type)
 - I select the [first](mention) [bank](entity_type)
 - The [latter](mention)
+- take the [second](mention) one
 
 ## regex:account
 - DE[0-9]{20}

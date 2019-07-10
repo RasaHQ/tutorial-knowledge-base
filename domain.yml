@@ -31,31 +31,63 @@ entities:
 slots:
   account:
     type: text
+  account_number:
+    type: text
   account_type:
+    type: text
+  allowed_residents:
     type: text
   amount:
     type: text
   attribute:
     type: text
+  balance:
+    type: text
   bank:
     type: text
   card:
+    type: text
+  card_number:
     type: text
   category:
     type: text
   country:
     type: text
+  created_date:
+    type: text
   date:
     type: text
   email:
+    type: text
+  english_customer_service:
+    type: text
+  english_mobile_app:
+    type: text
+  english_website:
     type: text
   entities:
     type: list
   entity_type:
     type: text
+  execution_date:
+    type: text
+  expiry_date:
+    type: text
+  free_accounts:
+    type: text
+  free_worldwide_withdrawals:
+    type: text
   gender:
     type: text
+  headquarters:
+    type: text
   mention:
+    type: text
+  name:
+    type: text
+  name_on_card:
+    type: text
+  opening_date:
     type: text
   person:
     type: text

@@ -9,6 +9,7 @@
 ## query entities
 * query_entities
   - action_query_entities
+  - slot{"category": null}
 
 ## query attribute
 * query_attribute
@@ -21,6 +22,7 @@
   - action_resolve_entity
   - slot{"mention": null}
   - slot{"bank": "N26"}
+  - slot{"account": "DE76894768662419673111"}
   
 ## out of scope
 * out_of_scope
