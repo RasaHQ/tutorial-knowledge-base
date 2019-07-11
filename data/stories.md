@@ -38,7 +38,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "transaction"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"transaction": ""}
 * compare_entities
   - action_compare_entities
@@ -57,7 +57,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "account"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"account": ""}
 * query_attribute
   - action_query_attribute
@@ -96,7 +96,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "transaction"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"transaction": ""}
 * out_of_scope
   - utter_out_of_scope
@@ -131,7 +131,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "account"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"account": ""}
 * query_attribute
   - action_query_attribute
@@ -148,7 +148,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "transaction"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"transaction": ""}
 * out_of_scope
   - utter_out_of_scope
@@ -173,7 +173,7 @@
 * query_entities
   - action_query_entities
   - slot{"entity_type": "transaction"}
-  - slot{"entities": []}
+  - slot{"listed_items": []}
   - slot{"transaction": ""}
 * query_attribute
   - action_query_attribute

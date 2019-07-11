@@ -65,7 +65,7 @@ slots:
     type: text
   english_website:
     type: text
-  entities:
+  listed_items:
     type: list
   entity_type:
     type: text

@@ -12,7 +12,7 @@ def resolve_mention(tracker: Tracker) -> Text:
     """
     Resolves a mention of an entity, such as first, to the actual entity.
     If multiple entities are listed during the conversation, the entities
-    are stored in the slot 'entities' as an list. We resolve the mention,
+    are stored in the slot 'listed_items' as a list. We resolve the mention,
     such as first, to the list index and retrieve the actual entity.
 
     :param tracker: tracker
@@ -21,13 +21,13 @@ def resolve_mention(tracker: Tracker) -> Text:
     graph_database = GraphDatabase()
 
     mention = tracker.get_slot("mention")
-    entities = tracker.get_slot("entities")
+    listed_items = tracker.get_slot("listed_items")
 
-    if mention is not None and entities is not None:
+    if mention is not None and listed_items is not None:
         idx = int(graph_database.map("mention-mapping", mention))
 
-        if type(idx) is int and idx < len(entities):
-            return entities[idx]
+        if type(idx) is int and idx < len(listed_items):
+            return listed_items[idx]
 
 
 def get_entity_type(tracker: Tracker) -> Text:
@@ -82,13 +82,13 @@ def get_entity_name(tracker: Tracker, entity_type: Text):
         return entity_name
 
     # user referred to an entity by its attributes
-    entities = tracker.get_slot("entities")
+    listed_items = tracker.get_slot("listed_items")
     attributes = get_attributes_of_entity(entity_type, tracker)
 
-    if entities and attributes:
-        # filter the entities by the set attributes
+    if listed_items and attributes:
+        # filter the listed_items by the set attributes
         graph_database = GraphDatabase()
-        for entity in entities:
+        for entity in listed_items:
             key_attr = schema[entity_type]["key"]
             result = graph_database.validate_entity(
                 entity_type, entity, key_attr, attributes
@@ -150,7 +150,7 @@ def to_str(entity: Dict[Text, Any], entity_keys: Union[Text, List[Text]]) -> Tex
 
 class ActionQueryEntities(Action):
     """Action for listing entities.
-    The entities might be restricted by specific attributes."""
+    The entities might be filtered by specific attributes."""
 
     def name(self):
         return "action_query_entities"
@@ -200,7 +200,7 @@ class ActionQueryEntities(Action):
 
         slots = [
             SlotSet("entity_type", entity_type),
-            SlotSet("entities", list(map(lambda x: to_str(x, entity_key), entities))),
+            SlotSet("listed_items", list(map(lambda x: to_str(x, entity_key), entities))),
         ]
 
         # if only one entity was found, that the slot of that entity type to the
@@ -289,10 +289,10 @@ class ActionCompareEntities(Action):
         graph = GraphDatabase()
 
         # get entities to compare and their entity type
-        entities = tracker.get_slot("entities")
+        listed_items = tracker.get_slot("listed_items")
         entity_type = get_entity_type(tracker)
 
-        if entities is None or entity_type is None:
+        if listed_items is None or entity_type is None:
             dispatcher.utter_template("utter_rephrase", tracker)
             return []
 
@@ -304,7 +304,7 @@ class ActionCompareEntities(Action):
             return []
 
         # utter response for every entity that shows the value of the attribute
-        for e in entities:
+        for e in listed_items:
             key_attribute = schema[entity_type]["key"]
             value = graph.get_attribute_of(entity_type, key_attribute, e, attribute)
 
@@ -324,7 +324,7 @@ class ActionResolveEntity(Action):
 
     def run(self, dispatcher, tracker, domain):
         entity_type = tracker.get_slot("entity_type")
-        entities = tracker.get_slot("entities")
+        listed_items = tracker.get_slot("listed_items")
 
         if entity_type is None:
             dispatcher.utter_template("utter_rephrase", tracker)
@@ -340,7 +340,7 @@ class ActionResolveEntity(Action):
         # Check if NER recognized entity directly
         # (e.g. bank name was mentioned and recognized as 'bank')
         value = tracker.get_slot(entity_type)
-        if value is not None and value in entities:
+        if value is not None and value in listed_items:
             return [SlotSet(entity_type, value), SlotSet("mention", None)]
 
         dispatcher.utter_template("utter_rephrase", tracker)
