@@ -32,7 +32,7 @@
 * help
   - utter_help
 
-## happy-path #1
+## conversation #1
 * greet
   - utter_greet
 * query_entities
@@ -51,7 +51,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #2
+## conversation #2
 * greet
   - utter_greet
 * query_entities
@@ -66,7 +66,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #3
+## conversation #3
 * greet
   - utter_greet
 * query_attribute
@@ -76,7 +76,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #4
+## conversation #4
 * greet
   - utter_greet
 * query_attribute
@@ -90,7 +90,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #5
+## conversation #5
 * greet
   - utter_greet
 * query_entities
@@ -107,7 +107,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #6
+## conversation #6
 * greet
   - utter_greet
 * out_of_scope
@@ -125,7 +125,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #7
+## conversation #7
 * greet
   - utter_greet
 * query_entities
@@ -142,7 +142,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #8
+## conversation #8
 * greet
   - utter_greet
 * query_entities
@@ -163,7 +163,7 @@
 * bye
   - utter_goodbye
 
-## happy-path #9
+## conversation #9
 * greet
   - utter_greet
 * out_of_scope

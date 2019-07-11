@@ -1,7 +1,7 @@
 # Tutorial Knowledge Base
 
 This repository contains the code that is referred to in the tutorial 
-[Integrating Rasa with graph databases to encode domain knowledge and resolve entities](TODO).
+[Integrating Rasa with knowledge bases](https://blog.rasa.com/integrating-rasa-with-knowledge-bases/).
 
 ## Requirements
 
