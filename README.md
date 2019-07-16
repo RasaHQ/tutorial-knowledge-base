@@ -136,7 +136,7 @@ relations in your graph database are involved.
 The query to fetch the requested entity becomes quite complex.
 The bot is currently not able to handle such complex requests.
 But, if you simply ask for a specific entity that just involves a node and its attributes in the graph database,
-the bot can answer the your request.
+the bot can answer your request.
 
 **ambiguous mention**
 
@@ -156,27 +156,30 @@ However, this is limited to the names you defined in those mapping tables.
 
 The bot cannot handle mentions by hypernyms & hyponyms at the moment.
 Knowledge about, for example, Rynair selling plane tickets is missing.
-If that can be encoded in the knowledge base, more complex queries could be used to retrieve the information of interest.
+If such knowledge can be encoded in your knowledge base, more complex queries could be used to retrieve the information of interest.
 
 **mention by attribute comparison**
 
-TODO
+If you say something like "Please, dispute the biggest of the just listed transactions.", the bot first needs to 
+compare multiple entities by certain attributes before it can pick the entity of interest.
+As the bot currently cannot perform a comparison, this kind of mention cannot be handled by the bot at the moment.
 
 
-Apart from the limitation already listed per mention type, the bot has the further limitations:
+Apart from the limitation already listed per mention type, the bot has some further limitations:
 * _Comparing entities is still limited_: 
 The bot is not able to detect the comparison operator and can therefore not compare multiple entities in a proper way. 
-So far, the bot just lists the requested attribute for all entities and you have to "compare" yourself.
 For example, if the bot listed your accounts and you are asking "On what account do I currently have more money?".
 The bot needs to recognize not only that you are interested in the balance of the just listed accounts, but also that 
-"more money" means that the accounts needs to be compared by their balance and you only want to know
+"more money" means that the accounts need to be compared by their balance and you only want to know
 about the account with the highest balance.
+So far, the bot just lists the requested attribute for all entities and you have to "compare" yourself.
+
 * _Executing complex queries_: 
 The bot tries to handle requests in a generic way. 
 However, some user requests, such as "How much money did I transfer to Max from my N26 account in the last month.", require complex queries. 
-Especially, querying relations can be very tricky. 
-As those queries need be handled separately, the bot needs to treat them in a special way, which is currently not implemented.
-
+The example request involves the nodes "person", "bank", and "account" as well as the relations "transaction" and "contract".
+As those requests are very specific and the resulting query is complex, the bot needs to handle them separately.
+However, this special treatment is currently not implemented, so that the bot is not able to answer complex queries that involve multiple nodes and relations.
 
 ## Feedback
 
