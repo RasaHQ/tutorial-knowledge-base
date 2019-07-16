@@ -99,7 +99,7 @@ Before we look at the limitations of knowledge bases, let's first take a look, i
 | mention by synonym              | What's my _balance_? vs. How much _cash_ do I have?                                                   | The user refers to the same entity with different names.                                                                                                                           |                                                                                 
 | mention by hypernyms & hyponyms | Here are some recent transactions: Deutsche Bahn 99.95€, Spotify 9.99€. Which do you want to dispute? | The user can answer many things, such as "the bigger one", "the subscription", or "the train ticket". The bot needs to understand what entity the user refers to by those answers. |                                                                                 
 
-The bot is not able to handle all of the above types of mentions.
+The bot in this repo can handle some but not all of  the cases above.
 Let's go over them one by one and take a closer look on what is possible and what are current limitations:
 
 **direct mention**
