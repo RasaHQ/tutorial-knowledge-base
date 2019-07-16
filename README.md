@@ -169,7 +169,7 @@ Apart from the limitation already listed per mention type, the bot has some furt
 * _Comparing entities is still limited_: 
 The bot is not able to detect the comparison operator and can therefore not compare multiple entities in a proper way. 
 For example, if the bot listed your accounts and you are asking "On what account do I currently have more money?".
-The bot needs to recognize not only that you are interested in the balance of the just listed accounts, but also that 
+The bot needs to recognize not only that you are interested in the balance of the listed accounts, but also that 
 "more money" means that the accounts need to be compared by their balance and you only want to know
 about the account with the highest balance.
 So far, the bot just lists the requested attribute for all entities and you have to "compare" yourself.
