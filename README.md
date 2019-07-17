@@ -27,6 +27,7 @@ In this repository [Grakn](https://grakn.ai/) is used as a graph database.
 However, you can also use any other graph database or use an alternative (see below).
 
 In order to use this code example, you need to install [Grakn](https://grakn.ai/).
+To be able to run this bot, you need version 1.4.2.
 Please check the [installation instruction](https://dev.grakn.ai/docs/running-grakn/install-and-run)
 of Grakn in order to install it.
 Once you installed Grakn, you need to start the Grakn server by executing
