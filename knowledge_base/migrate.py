@@ -1,23 +1,23 @@
-import grakn
+from grakn.client import GraknClient
 import csv
 
 
 def build_banking_graph(inputs):
-    client = grakn.Grakn(uri="localhost:48555")
-    with client.session(keyspace="banking") as session:
-        for input in inputs:
-            print(f"Loading data from [{input['data_path']}] into Grakn ...")
-            load_data_into_grakn(input, session)
+        with GraknClient(uri="localhost:48555") as client:
+            with client.session(keyspace="banking") as session:
+                for input in inputs:
+                    print("Loading from [" + input["data_path"] + "] into Grakn ...")
+                    load_data_into_grakn(input, session)
 
 
 def load_data_into_grakn(input, session):
     items = parse_data_to_dictionaries(input)
 
     for item in items:
-        with session.transaction(grakn.TxType.WRITE) as tx:
+        with session.transaction().write() as transaction:
             graql_insert_query = input["template"](item)
-            tx.query(graql_insert_query)
-            tx.commit()
+            transaction.query(graql_insert_query)
+            transaction.commit()
 
     print(f"Inserted {str(len(items))} items from [{input['data_path']}] into Grakn.")
 
@@ -108,7 +108,7 @@ def contract_template(contract):
         ' $account isa account, has account-number "' + contract["offer"] + '"; '
     )
     graql_insert_query += " insert $contract(provider: $bank, customer: $customer, offer: $account) isa contract; "
-    graql_insert_query += "$contract has _id " + str(contract["_id"]) + "; "
+    graql_insert_query += "$contract has identifier " + str(contract["identifier"]) + "; "
     graql_insert_query += "$contract has sign-date " + contract["sign-date"] + "; "
 
     return graql_insert_query
@@ -124,7 +124,7 @@ def represented_by_template(represented_by):
         " $card isa card, has card-number " + represented_by["bank-card"] + "; "
     )
     graql_insert_query += " insert $representation(bank-card: $card, bank-account: $account) isa represented-by; "
-    graql_insert_query += "$representation has _id " + represented_by["_id"] + "; "
+    graql_insert_query += "$representation has identifier " + represented_by["identifier"] + "; "
     return graql_insert_query
 
 
@@ -141,8 +141,8 @@ def transaction_template(transaction):
     )
     graql_insert_query += (
         "insert $transaction(account-of-receiver: $account-of-receiver, account-of-creator: $account-of-creator) isa transaction; "
-        + "$transaction has _id "
-        + str(transaction["_id"])
+        + "$transaction has identifier "
+        + str(transaction["identifier"])
         + "; "
         + "$transaction has amount "
         + str(transaction["amount"])

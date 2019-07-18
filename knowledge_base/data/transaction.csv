@@ -1,4 +1,4 @@
-_id,amount,execution-date,reference,category,account-of-receiver,account-of-creator
+identifier,amount,execution-date,reference,category,account-of-receiver,account-of-creator
 9,803.41,2019-12-16T10:49:31.641890,thanks,transfer,DE33510125629974889896,DE10985785971549145687
 30,701.30,2021-03-26T10:49:31.641890,Pasta Bar,food,DE76894768662419673111,DE10985785971549145687
 42,612.69,2021-06-24T10:49:31.641890,thanks,transfer,DE93852973047302670654,DE10985785971549145687

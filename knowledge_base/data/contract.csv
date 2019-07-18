@@ -1,4 +1,4 @@
-_id,sign-date,provider,customer,offer
+identifier,sign-date,provider,customer,offer
 1,2019-01-13T10:49:31.641721,Commerzbank,catalinasargent@googlemail.com,DE82444435329779109646
 2,2017-09-11T10:49:31.641763,bunq,mitchell.gillis@t-online.de,DE70334119137743514093
 3,2018-05-21T10:49:31.641784,Comdirect,mitchell.gillis@t-online.de,DE76894768662419673111

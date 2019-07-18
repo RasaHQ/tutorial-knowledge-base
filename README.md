@@ -27,7 +27,7 @@ In this repository [Grakn](https://grakn.ai/) is used as a graph database.
 However, you can also use any other graph database or use an alternative (see below).
 
 In order to use this code example, you need to install [Grakn](https://grakn.ai/).
-To be able to run this bot, you need version 1.4.2.
+To be able to run this bot, you need version 1.5.7.
 Please check the [installation instruction](https://dev.grakn.ai/docs/running-grakn/install-and-run)
 of Grakn in order to install it.
 Once you installed Grakn, you need to start the Grakn server by executing
@@ -37,9 +37,9 @@ grakn server start
 You can stop the server by running `grakn server stop`.
 
 In order to get some data into the graph database you need to execute the following steps:
-1. Create the schema by executing 
+1. Create the schema by executing
     ```bash
-    graql console --keyspace banking --file knowledge_base/schema.gql
+    grakn console --keyspace banking --file <absolute-path-to-knowledge_base/schema.gql>
     ```
     This will create a keyspace `banking` in your Grakn graph database with the schema defined in `knowledge_base/schema.gql`.
 2. Load data into your schema by running 

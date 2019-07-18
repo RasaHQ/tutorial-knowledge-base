@@ -3,15 +3,16 @@ define
 # entities
 
 person sub entity,
+  plays customer,
   key email,
   has first-name,
   has last-name,
   has city,
   has phone-number,
-  has gender,
-  plays customer;
+  has gender;
 
 bank sub entity,
+  plays provider,
   key name,
   has country,
   has headquarters,
@@ -20,25 +21,24 @@ bank sub entity,
   has english-website,
   has english-mobile-app,
   has free-worldwide-withdrawals,
-  has allowed-residents
-  plays provider;
+  has allowed-residents;
 
 account sub entity,
+  plays bank-account,
   key account-number,
   has opening-date,
   has balance,
   has account-type,
   plays offer,
   plays account-of-receiver,
-  plays account-of-creator,
-  plays bank-account;
+  plays account-of-creator;
 
 card sub entity,
-  has name-on-card,
+  plays bank-card,
   key card-number,
+  has name-on-card,
   has expiry-date,
-  has created-date,
-  plays bank-card;
+  has created-date;
 
 mapping sub entity,
   has mapping-key,
@@ -50,26 +50,26 @@ attribute-mapping sub mapping;
 
 # relationships
 
-contract sub relationship,
-  has _id,
-  has sign-date,
+contract sub relation,
   relates customer,
   relates offer,
-  relates provider;
+  relates provider,
+  key identifier,
+  has sign-date;
 
-transaction sub relationship,
-  has _id,
+transaction sub relation,
+  relates account-of-receiver,
+  relates account-of-creator,
+  key identifier,
   has amount,
   has reference,
   has category,
-  has execution-date,
-  relates account-of-receiver,
-  relates account-of-creator;
+  has execution-date;
 
-represented-by sub relationship,
-  has _id,
+represented-by sub relation,
   relates bank-account,
-  relates bank-card;
+  relates bank-card,
+  key identifier;
 
 # attribute
 
@@ -160,7 +160,7 @@ english-mobile-app sub attribute,
 free-worldwide-withdrawals sub attribute,
   datatype boolean;
 
-_id sub attribute,
+identifier sub attribute,
   datatype long;
 
 name-on-card sub attribute,

@@ -1,7 +1,7 @@
 schema = {
     "transaction": {
         "attributes": ["category", "execution-date", "amount", "reference"],
-        "key": "_id",
+        "key": "identifier",
         "representation": [
             "execution-date",
             "reference",
@@ -9,7 +9,7 @@ schema = {
             "amount",
         ],
     },
-    "contract": {"attributes": ["sign-date"], "key": "_id", "representation": ["_id"]},
+    "contract": {"attributes": ["sign-date"], "key": "identifier", "representation": ["identifier"]},
     "account": {
         "attributes": ["balance", "account-type", "opening-date", "account-number"],
         "key": "account-number",

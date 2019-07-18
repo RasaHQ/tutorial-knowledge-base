@@ -1,12 +1,13 @@
 import logging
 from typing import List, Dict, Any, Optional, Text
 
-import grakn
+from grakn.client import GraknClient
 
 logger = logging.getLogger(__name__)
 
 
 class KnowledgeBase(object):
+
     def get_entities(
         self,
         entity_type: Text,
@@ -40,7 +41,7 @@ class GraphDatabase(KnowledgeBase):
     """
 
     def __init__(self, uri: Text = "localhost:48555", keyspace: Text = "banking"):
-        self.client = grakn.Grakn(uri=uri)
+        self.uri = uri
         self.keyspace = keyspace
         self.me = "mitchell.gillis@t-online.de"
 
@@ -58,27 +59,29 @@ class GraphDatabase(KnowledgeBase):
         """
         Executes a query that returns a list of entities with all their attributes.
         """
-        with self.client.session(keyspace=self.keyspace) as session:
-            with session.transaction(grakn.TxType.READ) as tx:
-                logger.debug("Executing Graql Query: " + query)
-                result_iter = tx.query(query)
-                concepts = result_iter.collect_concepts()
-                entities = []
-                for c in concepts:
-                    entities.append(self._thing_to_dict(c))
-                return entities
+        with GraknClient(uri=self.uri) as client:
+            with client.session(keyspace=self.keyspace) as session:
+                with session.transaction().read() as tx:
+                    logger.debug("Executing Graql Query: " + query)
+                    result_iter = tx.query(query)
+                    concepts = result_iter.collect_concepts()
+                    entities = []
+                    for c in concepts:
+                        entities.append(self._thing_to_dict(c))
+                    return entities
 
     def _execute_attribute_query(self, query: Text) -> List[Any]:
         """
         Executes a query that returns the value(s) an entity has for a specific
         attribute.
         """
-        with self.client.session(keyspace=self.keyspace) as session:
-            with session.transaction(grakn.TxType.READ) as tx:
-                print("Executing Graql Query: " + query)
-                result_iter = tx.query(query)
-                concepts = result_iter.collect_concepts()
-                return [c.value() for c in concepts]
+        with GraknClient(uri=self.uri) as client:
+            with client.session(keyspace=self.keyspace) as session:
+                with session.transaction().read() as tx:
+                    print("Executing Graql Query: " + query)
+                    result_iter = tx.query(query)
+                    concepts = result_iter.collect_concepts()
+                    return [c.value() for c in concepts]
 
     def _execute_relation_query(
         self, query: Text, relation_name: Text
@@ -87,28 +90,29 @@ class GraphDatabase(KnowledgeBase):
         Execute a query that queries for a relation. All attributes of the relation and
         all entities participating in the relation are part of the result.
         """
-        with self.client.session(keyspace=self.keyspace) as session:
-            with session.transaction(grakn.TxType.READ) as tx:
-                print("Executing Graql Query: " + query)
-                result_iter = tx.query(query)
+        with GraknClient(uri=self.uri) as client:
+            with client.session(keyspace=self.keyspace) as session:
+                with session.transaction().read() as tx:
+                    print("Executing Graql Query: " + query)
+                    result_iter = tx.query(query)
 
-                relations = []
+                    relations = []
 
-                for concept in result_iter:
-                    relation_entity = concept.map().get(relation_name)
-                    relation = self._thing_to_dict(relation_entity)
+                    for concept in result_iter:
+                        relation_entity = concept.map().get(relation_name)
+                        relation = self._thing_to_dict(relation_entity)
 
-                    for (
-                        role_entity,
-                        entity_set,
-                    ) in relation_entity.role_players_map().items():
-                        role_label = role_entity.label()
-                        thing = entity_set.pop()
-                        relation[role_label] = self._thing_to_dict(thing)
+                        for (
+                            role_entity,
+                            entity_set,
+                        ) in relation_entity.role_players_map().items():
+                            role_label = role_entity.label()
+                            thing = entity_set.pop()
+                            relation[role_label] = self._thing_to_dict(thing)
 
-                    relations.append(relation)
+                        relations.append(relation)
 
-                return relations
+                    return relations
 
     def _get_me_clause(self, entity_type: Text) -> Text:
         """
