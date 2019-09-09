@@ -3,6 +3,13 @@
 This repository contains the code that is referred to in the tutorial 
 [Integrating Rasa with knowledge bases](https://blog.rasa.com/integrating-rasa-with-knowledge-bases/).
 
+
+**UPDATE**: 
+We added [Knowledge Base Actions](https://rasa.com/docs/rasa/core/knowledge-bases/) to Rasa.
+[Knowledge Base Actions](https://rasa.com/docs/rasa/core/knowledge-bases/) help you to connect your knowledge base to Rasa more quickly.
+Try it out and share your feedback on the [Rasa Community Forum](https://forum.rasa.com/).
+
+
 ## Outline
 
 1. [Requirements](#Requirements)
