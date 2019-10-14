@@ -220,16 +220,16 @@ class ActionQueryEntities(Action):
 
         :param entities: list of transactions
         :param account_number: account number
-        :return: list of filtered transactions with max. 10 entries
+        :return: list of filtered transactions with max. 5 entries
         """
         if account_number is not None:
             filtered_entities = []
             for entity in entities:
                 if entity["account-of-creator"]["account-number"] == account_number:
                     filtered_entities.append(entity)
-            return filtered_entities[:10]
+            return filtered_entities[:5]
 
-        return entities[:10]
+        return entities[:5]
 
 
 class ActionQueryAttribute(Action):

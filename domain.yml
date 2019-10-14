@@ -65,8 +65,6 @@ slots:
     type: text
   english_website:
     type: text
-  listed_items:
-    type: list
   entity_type:
     type: text
   execution_date:
@@ -81,6 +79,8 @@ slots:
     type: text
   headquarters:
     type: text
+  listed_items:
+    type: list
   mention:
     type: text
   name:

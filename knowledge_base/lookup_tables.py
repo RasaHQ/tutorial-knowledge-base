@@ -8,7 +8,7 @@ URI = "localhost:48555"
 
 def execute_entity_query(query):
     with  GraknClient(uri=URI) as client:
-        with grakn_client.session(keyspace=KEYSPACE) as session:
+        with client.session(keyspace=KEYSPACE) as session:
            with session.transaction().read() as read_transaction:
                 result = read_transaction.query(query)
 
