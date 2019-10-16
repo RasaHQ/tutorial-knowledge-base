@@ -11,7 +11,7 @@ def insert(graql_insert_query):
 
 if __name__ == "__main__":
     graql_insert_query = """
-    match $p isa bank, has name "KfW"; delete $p;
+    insert $b isa bank, has name 'KfW', has country 'Germany', has headquarters 'Frankfurt am Main';
     """
 
     insert(graql_insert_query)
