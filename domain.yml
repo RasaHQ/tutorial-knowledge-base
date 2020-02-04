@@ -9,6 +9,7 @@ intents:
 - query_attribute
 - query_entities
 - resolve_entity
+
 entities:
 - account
 - account_type
@@ -28,6 +29,7 @@ entities:
 - phone_number
 - reference
 - transaction
+
 slots:
   account:
     type: text
@@ -97,7 +99,8 @@ slots:
     type: text
   transaction:
     type: text
-templates:
+
+responses:
   utter_greet:
   - text: Hi. I can give you some information about banks or I can give you some details
       about the accounts you own. What do you want to know?
@@ -115,14 +118,13 @@ templates:
   utter_help:
   - text: I can tell you some facts about different banks. I can answer some questions
       about your accounts. And I can show you your recent transactions.
+
 actions:
 - action_compare_entities
 - action_query_attribute
 - action_query_entities
 - action_resolve_entity
-- utter_goodbye
-- utter_greet
-- utter_help
-- utter_ok
-- utter_out_of_scope
-- utter_rephrase
+
+session_config:
+  session_expiration_time: 60  # value in minutes, 0 means infinitely long
+  carry_over_slots_to_new_session: true  # set to false to forget slots between sessions
