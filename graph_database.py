@@ -269,7 +269,7 @@ class GraphDatabase(KnowledgeBase):
         self,
         entity_type: Text,
         attributes: Optional[List[Dict[Text, Text]]] = None,
-        limit: int = 5,
+        limit: int = 10,
     ) -> List[Dict[Text, Any]]:
         """
         Query the graph database for entities of the given type. Restrict the entities

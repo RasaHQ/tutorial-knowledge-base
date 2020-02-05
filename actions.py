@@ -189,9 +189,9 @@ class ActionQueryEntities(Action):
         dispatcher.utter_message(
             "Found the following '{}' entities:".format(entity_type)
         )
-        for i, e in enumerate(entities):
-            representation_string = to_str(e, entity_representation)
-            dispatcher.utter_message(f"{i + 1}: {representation_string}")
+        sorted_entities = sorted([to_str(e, entity_representation) for e in entities])
+        for i, e in enumerate(sorted_entities):
+            dispatcher.utter_message(f"{i + 1}: {e}")
 
         # set slots
         # set the entities slot in order to resolve references to one of the found
